@@ -1,0 +1,167 @@
+# =============================================================
+#  Kafka KRaft (1 broker, không cần Zookeeper) + Kafka UI
+#  Đồ án: Nhập môn Dữ liệu lớn — Quy trình SOURCES → INGESTION
+#  TV2: Hạ tầng Kafka
+#
+#  Khởi động  : docker compose up -d
+#  Dừng       : docker compose down
+#  Xem log    : docker compose logs -f kafka
+#  Xóa data   : docker compose down -v          ← XÓA TOÀN BỘ DATA KAFKA
+# =============================================================
+
+services:
+
+  # -----------------------------------------------------------
+  # 1. Kafka Broker chạy ở chế độ KRaft (không cần Zookeeper)
+  # -----------------------------------------------------------
+  kafka:
+    image: apache/kafka:3.8.0
+    # Tag mới nhất: https://hub.docker.com/r/apache/kafka/tags
+    container_name: kafka
+    hostname: kafka          # tên DNS nội bộ trong Docker network
+    restart: unless-stopped
+    ports:
+      #  Port nào expose ra HOST (Windows)
+      - "29092:29092"        # Script Python trên host → localhost:29092
+      #
+      #  Port KHÔNG cần expose ra host:
+      #  9092 (INTERNAL)    — chỉ dùng trong Docker network (Kafka UI ↔ Kafka)
+      #  9093 (CONTROLLER)  — chỉ dùng trong Docker network (Raft consensus)
+    environment:
+
+      # ── 1. KRaft Identity ───────────────────────────────────
+      KAFKA_NODE_ID: 1
+      # Node ID: số nguyên duy nhất định danh broker/controller này.
+      # Với 1 broker thì luôn là 1; nếu sau này mở rộng thành multi-broker
+      # thì mỗi node có ID khác nhau.
+
+      KAFKA_PROCESS_ROLES: broker,controller
+      # Node này đảm nhiệm cả hai vai trò:
+      #   broker     — nhận/gửi message từ Producer và Consumer
+      #   controller — quản lý metadata cụm (thay thế Zookeeper trong KRaft)
+
+      CLUSTER_ID: "q1Sh3IynT6atLfkfiJ9LAA"
+      # UUID cố định (22 ký tự, base64url, không padding).
+      # Phải cố định để data trong volume không bị "mồ côi" khi tạo lại container.
+      # Sinh ID mới (nếu cần reset hoàn toàn):
+      #   docker run --rm apache/kafka:3.8.0 /opt/kafka/bin/kafka-storage.sh random-uuid
+
+      # ── 2. Listeners ────────────────────────────────────────
+      # Nguyên lý quan trọng (thường bị hiểu nhầm):
+      #   KAFKA_LISTENERS          : port Kafka thực sự LẮNG NGHE bên trong container
+      #   KAFKA_ADVERTISED_LISTENERS : địa chỉ Kafka GỬI CHO CLIENT để dùng cho mọi request SAU ĐÓ
+      #
+      # Luồng kết nối:
+      #   [Kafka UI]  → kafka:29092? KHÔNG. → kafka:9092 (INTERNAL) → Kafka trả "dùng kafka:9092"
+      #   [Python/host] → localhost:29092 (EXTERNAL) → Kafka trả "dùng localhost:29092"
+      #
+      # Ba listener:
+      #   INTERNAL   : broker ↔ broker và Kafka UI ↔ Kafka (trong Docker network)
+      #   CONTROLLER : Raft consensus giữa các controller (chỉ nội bộ)
+      #   EXTERNAL   : script Python trên Windows host ↔ Kafka (qua Docker port mapping)
+
+      KAFKA_LISTENERS: "INTERNAL://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,EXTERNAL://0.0.0.0:29092"
+      # 0.0.0.0 = lắng nghe trên tất cả interface của container
+
+      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:9092,EXTERNAL://localhost:29092"
+      # - INTERNAL → kafka:9092   : Kafka UI resolve tên "kafka" qua Docker DNS → thành công
+      # - EXTERNAL → localhost:29092 : Python trên Windows resolve localhost → Docker Desktop
+      #   chuyển tiếp vào cổng 29092 của container → thành công
+      # CONTROLLER không có trong advertised (không phải data-plane listener)
+
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT"
+      # Map tên listener → giao thức bảo mật (đồ án dùng PLAINTEXT, không có TLS/SASL)
+
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      # Listener nào broker dùng để giao tiếp với nhau (ở đây chỉ có 1 broker,
+      # nhưng vẫn phải khai báo)
+
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      # Listener dành riêng cho Raft consensus giữa các controller
+
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+      # Danh sách controller tham gia bầu cử Raft: "nodeId@host:port"
+      # Với 1 broker: chỉ có 1 voter → không có fault tolerance (chấp nhận cho dev/đồ án)
+
+      # ── 3. Storage ──────────────────────────────────────────
+      KAFKA_LOG_DIRS: /var/kafka/logs
+      # Thư mục lưu data của tất cả topic/partition; được mount vào Docker volume bên dưới
+
+      # ── 4. Reliability — 1 broker ───────────────────────────
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      # Topic nội bộ __consumer_offsets lưu offset của consumer group.
+      # Mặc định = 3 (cần 3 broker); với 1 broker phải đặt = 1, không thì Kafka từ chối start.
+
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      # Tương tự cho topic __transaction_state (dùng bởi idempotent/transactional producer)
+
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      # In-Sync Replicas tối thiểu để ghi thành công; với 1 broker phải = 1
+
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      # Thời gian chờ trước khi rebalance consumer group lần đầu.
+      # 0 ms → consumer join nhóm ngay; phù hợp môi trường dev (mặc định 3000 ms gây chờ)
+
+      # ── 5. Behavior ─────────────────────────────────────────
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      # Tắt tạo topic tự động khi producer/consumer gửi request tới topic chưa tồn tại.
+      # Bắt buộc tạo topic qua create_topics.py → đảm bảo đúng partition/replication config.
+
+      KAFKA_LOG_RETENTION_HOURS: 168
+      # Giữ message 7 ngày (= 168 giờ); sau đó Kafka xóa segment cũ nhất
+
+      KAFKA_LOG_SEGMENT_BYTES: 1073741824
+      # Mỗi segment file tối đa 1 GB; ảnh hưởng đến tần suất roll-over và compaction
+
+    volumes:
+      - kafka_data:/var/kafka/logs
+      # Named volume: data tồn tại dù container bị xóa (docker compose down)
+      # Chỉ mất khi: docker compose down -v  hoặc  docker volume rm <tên_volume>
+
+    healthcheck:
+      # Dùng kafka-topics.sh để thực sự kiểm tra broker đã sẵn sàng nhận request
+      # (chứ không chỉ kiểm tra port mở)
+      test:
+        - "CMD-SHELL"
+        - "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list"
+      interval: 15s      # kiểm tra mỗi 15 giây
+      timeout: 10s       # timeout mỗi lần kiểm tra
+      retries: 10        # thử tối đa 10 lần (~2.5 phút) trước khi báo unhealthy
+      start_period: 30s  # bỏ qua kết quả fail trong 30 giây đầu (Kafka đang khởi động)
+
+  # -----------------------------------------------------------
+  # 2. Kafka UI — xem topic/message/partition qua trình duyệt
+  # -----------------------------------------------------------
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    restart: unless-stopped
+    ports:
+      - "8080:8080"      # Trình duyệt → http://localhost:8080
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local-kafka
+      # Tên hiển thị trong giao diện Kafka UI
+
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      # Kafka UI kết nối vào Kafka qua tên service "kafka" (INTERNAL listener)
+      # Kafka UI ở trong cùng Docker network nên resolve được tên này
+
+    depends_on:
+      kafka:
+        condition: service_healthy
+      # Kafka UI chỉ start sau khi Kafka đã healthy → tránh lỗi "connection refused"
+
+# =============================================================
+#  Volumes
+# =============================================================
+volumes:
+  kafka_data:
+    driver: local
+    # Docker lưu data tại: \\wsl$\docker-desktop-data\... (Windows/WSL2)
+    # Tên đầy đủ: monthaysang_kafka_data  (prefix = tên thư mục project)
+    #
+    # Lệnh hữu ích:
+    #   docker volume ls                              # liệt kê volumes
+    #   docker volume inspect monthaysang_kafka_data  # xem đường dẫn thực
+    #   docker compose down -v                        # dừng VÀ XÓA data
+    #   docker compose down                           # dừng, GIỮ data
