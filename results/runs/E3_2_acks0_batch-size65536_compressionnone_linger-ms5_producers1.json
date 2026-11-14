@@ -1,0 +1,49 @@
+{
+  "run_id": "E3_2_acks0_batch-size65536_compressionnone_linger-ms5_producers1",
+  "params": {
+    "bootstrap": "localhost:9092",
+    "producers": 1,
+    "rate": 0,
+    "n": 0,
+    "duration": 20.0,
+    "topic": "bench.p6",
+    "txn_ratio": 0.1,
+    "bad_ratio": 0.0,
+    "seed": 42,
+    "acks": "0",
+    "linger_ms": 5,
+    "batch_size": 65536,
+    "compression": "none",
+    "run_id": "E3_2_acks0_batch-size65536_compressionnone_linger-ms5_producers1"
+  },
+  "wall_seconds": 20.007,
+  "sent": 973799,
+  "delivered": 973799,
+  "failed": 0,
+  "throughput_delivered_eps": 48685.1,
+  "ack_latency_ms": {
+    "p50": 8.36,
+    "p95": 14.1,
+    "p99": 15.85
+  },
+  "injected_total": 0,
+  "injected_by_kind": {},
+  "producers": [
+    {
+      "producer_id": "P01",
+      "sent": 973799,
+      "delivered": 973799,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 973799,
+      "seconds_produce": 20.0,
+      "seconds_total": 20.002,
+      "per_topic": {
+        "bench.p6": 973799
+      },
+      "injected_errors": {},
+      "delivery_errors": []
+    }
+  ]
+}

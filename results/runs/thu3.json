@@ -1,0 +1,44 @@
+{
+  "run_id": "thu3",
+  "params": {
+    "bootstrap": "localhost:9092",
+    "producers": 1,
+    "rate": 0,
+    "n": 50000,
+    "duration": 0,
+    "topic": "bench.p3",
+    "txn_ratio": 0.1,
+    "bad_ratio": 0.0,
+    "seed": 42,
+    "acks": "all",
+    "linger_ms": 5,
+    "batch_size": 65536,
+    "compression": "none",
+    "run_id": "thu3"
+  },
+  "wall_seconds": 2.468,
+  "sent": 50000,
+  "delivered": 50000,
+  "failed": 0,
+  "throughput_delivered_eps": 20308.7,
+  "injected_total": 0,
+  "injected_by_kind": {},
+  "producers": [
+    {
+      "producer_id": "P01",
+      "sent": 50000,
+      "delivered": 50000,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 50000,
+      "seconds_produce": 2.393,
+      "seconds_total": 2.462,
+      "per_topic": {
+        "bench.p3": 50000
+      },
+      "injected_errors": {},
+      "delivery_errors": []
+    }
+  ]
+}
