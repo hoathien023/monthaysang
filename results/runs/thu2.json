@@ -1,0 +1,83 @@
+{
+  "run_id": "thu2",
+  "params": {
+    "bootstrap": "localhost:9092",
+    "producers": 2,
+    "rate": 2000.0,
+    "n": 0,
+    "duration": 30.0,
+    "topic": "",
+    "txn_ratio": 0.1,
+    "bad_ratio": 0.05,
+    "seed": 42,
+    "acks": "all",
+    "linger_ms": 5,
+    "batch_size": 65536,
+    "compression": "none",
+    "run_id": "thu2"
+  },
+  "wall_seconds": 31.417,
+  "sent": 60000,
+  "delivered": 60000,
+  "failed": 0,
+  "throughput_delivered_eps": 1997.3,
+  "injected_total": 3018,
+  "injected_by_kind": {
+    "missing_field": 733,
+    "unknown_event_type": 716,
+    "wrong_type": 704,
+    "bad_timestamp": 757,
+    "negative_amount": 60,
+    "empty_items": 48
+  },
+  "producers": [
+    {
+      "producer_id": "P01",
+      "sent": 30000,
+      "delivered": 30000,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 30000,
+      "seconds_produce": 30.0,
+      "seconds_total": 30.041,
+      "per_topic": {
+        "web.clickstream": 27105,
+        "web.transactions": 2895
+      },
+      "injected_errors": {
+        "missing_field": 373,
+        "unknown_event_type": 352,
+        "wrong_type": 351,
+        "bad_timestamp": 394,
+        "negative_amount": 26,
+        "empty_items": 25
+      },
+      "delivery_errors": []
+    },
+    {
+      "producer_id": "P02",
+      "sent": 30000,
+      "delivered": 30000,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 30000,
+      "seconds_produce": 30.0,
+      "seconds_total": 30.017,
+      "per_topic": {
+        "web.transactions": 2914,
+        "web.clickstream": 27086
+      },
+      "injected_errors": {
+        "missing_field": 360,
+        "bad_timestamp": 363,
+        "unknown_event_type": 364,
+        "wrong_type": 353,
+        "empty_items": 23,
+        "negative_amount": 34
+      },
+      "delivery_errors": []
+    }
+  ]
+}

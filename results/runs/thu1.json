@@ -1,0 +1,45 @@
+{
+  "run_id": "thu1",
+  "params": {
+    "bootstrap": "localhost:9092",
+    "producers": 1,
+    "rate": 0,
+    "n": 10000,
+    "duration": 0,
+    "topic": "",
+    "txn_ratio": 0.1,
+    "bad_ratio": 0.0,
+    "seed": 42,
+    "acks": "all",
+    "linger_ms": 5,
+    "batch_size": 65536,
+    "compression": "none",
+    "run_id": "thu1"
+  },
+  "wall_seconds": 1.55,
+  "sent": 10000,
+  "delivered": 10000,
+  "failed": 0,
+  "throughput_delivered_eps": 6557.4,
+  "injected_total": 0,
+  "injected_by_kind": {},
+  "producers": [
+    {
+      "producer_id": "P01",
+      "sent": 10000,
+      "delivered": 10000,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 10000,
+      "seconds_produce": 0.245,
+      "seconds_total": 1.525,
+      "per_topic": {
+        "web.clickstream": 8964,
+        "web.transactions": 1036
+      },
+      "injected_errors": {},
+      "delivery_errors": []
+    }
+  ]
+}

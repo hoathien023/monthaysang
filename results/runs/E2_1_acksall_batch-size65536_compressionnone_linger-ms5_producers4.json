@@ -1,0 +1,97 @@
+{
+  "run_id": "E2_1_acksall_batch-size65536_compressionnone_linger-ms5_producers4",
+  "params": {
+    "bootstrap": "localhost:9092",
+    "producers": 4,
+    "rate": 0,
+    "n": 0,
+    "duration": 20.0,
+    "topic": "bench.p6",
+    "txn_ratio": 0.1,
+    "bad_ratio": 0.0,
+    "seed": 42,
+    "acks": "all",
+    "linger_ms": 5,
+    "batch_size": 65536,
+    "compression": "none",
+    "run_id": "E2_1_acksall_batch-size65536_compressionnone_linger-ms5_producers4"
+  },
+  "wall_seconds": 20.393,
+  "sent": 1890092,
+  "delivered": 1890092,
+  "failed": 0,
+  "throughput_delivered_eps": 94156.2,
+  "ack_latency_ms": {
+    "p50": 45.93,
+    "p95": 129.35,
+    "p99": 526.17
+  },
+  "injected_total": 0,
+  "injected_by_kind": {},
+  "producers": [
+    {
+      "producer_id": "P01",
+      "sent": 467573,
+      "delivered": 467573,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 467573,
+      "seconds_produce": 20.0,
+      "seconds_total": 20.074,
+      "per_topic": {
+        "bench.p6": 467573
+      },
+      "injected_errors": {},
+      "delivery_errors": []
+    },
+    {
+      "producer_id": "P02",
+      "sent": 474852,
+      "delivered": 474852,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 474852,
+      "seconds_produce": 20.0,
+      "seconds_total": 20.037,
+      "per_topic": {
+        "bench.p6": 474852
+      },
+      "injected_errors": {},
+      "delivery_errors": []
+    },
+    {
+      "producer_id": "P03",
+      "sent": 473621,
+      "delivered": 473621,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 473621,
+      "seconds_produce": 20.0,
+      "seconds_total": 20.056,
+      "per_topic": {
+        "bench.p6": 473621
+      },
+      "injected_errors": {},
+      "delivery_errors": []
+    },
+    {
+      "producer_id": "P04",
+      "sent": 474046,
+      "delivered": 474046,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 474046,
+      "seconds_produce": 20.0,
+      "seconds_total": 20.017,
+      "per_topic": {
+        "bench.p6": 474046
+      },
+      "injected_errors": {},
+      "delivery_errors": []
+    }
+  ]
+}
