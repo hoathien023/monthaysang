@@ -1,0 +1,25 @@
+{
+  "run_id": "E7_3_single_c10",
+  "params": {
+    "url": "http://127.0.0.1:8000",
+    "clients": 10,
+    "duration": 20.0,
+    "mode": "single",
+    "batch_size": 100,
+    "txn_ratio": 0.1,
+    "bad_ratio": 0.0,
+    "seed": 1000,
+    "run_id": "E7_3_single_c10"
+  },
+  "wall_seconds": 20.03,
+  "requests_ok": 3330,
+  "requests_failed": 0,
+  "events_accepted": 3330,
+  "requests_per_s": 166.3,
+  "events_per_s": 166.3,
+  "latency_ms": {
+    "p50": 58.23,
+    "p95": 69.37,
+    "p99": 75.89
+  }
+}
