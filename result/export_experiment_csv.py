@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """
 results/export_experiment_csv.py
@@ -6,12 +5,16 @@ results/export_experiment_csv.py
 Chuyển summary.json của verify_consumer.py thành CSV
 chuẩn dùng chung cho E1, E5, E6.
 
-Ví dụ:
+Ví dụ (khuyên dùng --param, KHÔNG bị lỗi dấu nháy trong PowerShell):
 python results/export_experiment_csv.py `
   --experiment E1 `
   --run 1 `
-  --params '{"partitions":1,"producers":1,"target_events":500000}' `
-  --summary results/consumer_E1_p1_run1_summary.json
+  --param partitions=1 --param producers=1 --param target_events=500000 `
+  --summary results/consumer_E1_p1_run1_summary.json `
+  --output results/E1_partitions.csv
+
+Vẫn có --params dạng JSON, nhưng PowerShell 5.1 làm hỏng dấu nháy kép trong JSON,
+nên nên dùng --param. Có thể kết hợp cả hai.
 """
 
 from __future__ import annotations
@@ -37,6 +40,23 @@ FIELDS = [
     "missing",
     "duplicates",
 ]
+
+
+def parse_kv_params(pairs: list[str]) -> dict[str, Any]:
+    """['partitions=1', 'mode=fast'] -> {'partitions': 1, 'mode': 'fast'} (tự nhận số/true/false)."""
+    out: dict[str, Any] = {}
+    for item in pairs:
+        if "=" not in item:
+            raise ValueError(f"--param phải có dạng KEY=VALUE, nhận được: {item!r}")
+        key, raw = item.split("=", 1)
+        key = key.strip()
+        if not key:
+            raise ValueError(f"--param thiếu KEY: {item!r}")
+        try:
+            out[key] = json.loads(raw)      # 1 -> int, 0.5 -> float, true -> bool
+        except json.JSONDecodeError:
+            out[key] = raw                  # chuỗi thường
+    return out
 
 
 def load_summary(path: Path) -> dict[str, Any]:
@@ -115,8 +135,16 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument(
         "--params",
-        required=True,
-        help="Thông số chạy dưới dạng JSON."
+        default="{}",
+        help="Thông số chạy dưới dạng JSON object (tùy chọn)."
+    )
+
+    parser.add_argument(
+        "--param",
+        action="append",
+        default=[],
+        metavar="KEY=VALUE",
+        help="Thông số chạy, lặp lại được: --param partitions=1 --param producers=1."
     )
 
     parser.add_argument("--summary", required=True, type=Path)
@@ -146,6 +174,11 @@ def main() -> int:
 
         if not isinstance(params, dict):
             raise ValueError("--params phải là một JSON object")
+
+        params.update(parse_kv_params(args.param))
+
+        if not params:
+            raise ValueError("Cần ít nhất một thông số: dùng --param KEY=VALUE")
 
         summary = load_summary(args.summary)
 
