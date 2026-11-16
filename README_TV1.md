@@ -40,9 +40,9 @@ Sơ đồ chính thức: `docs/diagrams/` (TV3 bổ sung).
 | Docker Desktop | Bản mới, bật WSL2 (Windows). Nếu báo "WSL needs updating" thì chạy `wsl --install --no-distribution --web-download` (PowerShell Admin) rồi khởi động lại máy |
 | Git | Để lấy mã nguồn |
 | RAM / ổ đĩa | RAM 8 GB trở lên (cấp cho Docker ít nhất 4 GB), trống 10 GB |
-| Cổng cần rảnh | 9092 (Kafka), 8080 (Kafka UI), 8000 (REST API) |
+| Cổng cần rảnh | 29092 (Kafka, cho chương trình chạy trên máy), 8080 (Kafka UI), 8000 (REST API) |
 | Thư viện Python | `requirements.txt` (đã ghim phiên bản) |
-| Image Docker | `apache/kafka:3.8.0`, `provectuslabs/kafka-ui:v0.7.2` |
+| Image Docker | `apache/kafka:3.8.0`, `provectuslabs/kafka-ui` (theo `docker-compose.yml` ở thư mục gốc) |
 
 ## 3. Cài đặt và chạy nhanh (Windows PowerShell, tại thư mục gốc của repo)
 
@@ -52,11 +52,12 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned   # nếu Power
 .venv\Scripts\Activate.ps1                                         # đầu dòng phải có (.venv)
 pip install -r requirements.txt
 
-docker compose -f infra/docker-compose.yml up -d
+docker compose up -d                    # dùng docker-compose.yml ở thư mục gốc (của TV2)
 # Đợi khoảng 20-30 giây cho Kafka khởi động xong, rồi:
-python infra/create_topics.py
-python infra/hello_kafka.py            # phải in: KET NOI OK
+python infra/create_topics.py          # phải in: [OK] 6/6 topic san sang
 ```
+Chương trình chạy trên máy kết nối Kafka qua **`localhost:29092`** (cổng 9092 chỉ dùng bên trong Docker). Producer và API đã mặc định cổng này;
+muốn đổi địa chỉ, dùng `--bootstrap` (Producer) hoặc biến môi trường `KAFKA_BOOTSTRAP_SERVERS`.
 Kiểm tra phần không cần Kafka (phải in `... OK` ở cả 3 lệnh):
 ```powershell
 python -m src.generator.selftest
@@ -93,6 +94,8 @@ Mỗi lần sinh có thêm file `<out>.summary.json` ghi số sự kiện và s�
 
 ## 5. Producer (TV1)
 
+Mặc định gửi tới `localhost:29092`. Lệnh ví dụ:
+
 ```powershell
 python -m src.producer.producer --n 100000                       # 1 producer, hết tốc độ, 100.000 sự kiện
 python -m src.producer.producer --producers 2 --rate 2000 --duration 60 --bad-ratio 0.05
@@ -109,7 +112,7 @@ python -m src.producer.producer --topic bench.p3 --n 500000      # ép toàn b�
 | `--bad-ratio` | Tỉ lệ sự kiện bị tiêm lỗi có chủ đích (để đối chiếu với DLQ) |
 | `--topic` | Ép toàn bộ sự kiện vào một topic (thí nghiệm); khi đó chỉ gửi loại clickstream |
 | `--burst-rate`, `--burst-every`, `--burst-seconds` | Mô phỏng giờ cao điểm (xem dưới) |
-| `--run-id`, `--seed`, `--txn-ratio`, `--bootstrap` | Tên lần chạy, seed, tỉ lệ giao dịch (mặc định 0,1), địa chỉ Kafka |
+| `--run-id`, `--seed`, `--txn-ratio`, `--bootstrap` | Tên lần chạy, seed, tỉ lệ giao dịch (mặc định 0,1), địa chỉ Kafka (mặc định `localhost:29092`) |
 
 **Mô phỏng giờ cao điểm (burst):** cứ mỗi `--burst-every` giây, trong `--burst-seconds` giây cuối của chu kỳ,
 tốc độ tăng từ `--rate` lên `--burst-rate`. Ví dụ:
@@ -135,6 +138,8 @@ Chạy (cửa sổ terminal riêng, giữ cho nó chạy; phải dùng 1 worker 
 uvicorn src.api.app:app --port 8000
 ```
 Swagger: http://127.0.0.1:8000/docs
+
+API đọc địa chỉ Kafka từ biến môi trường `KAFKA_BOOTSTRAP_SERVERS` (mặc định `localhost:29092`).
 
 | Endpoint | Chức năng |
 |---|---|
@@ -200,7 +205,7 @@ Phần Consumer (cách chạy, file tóm tắt đầu ra, ví dụ bản ghi tro
 
 | Thư mục | Nội dung | Phụ trách |
 |---|---|---|
-| `infra/` | `docker-compose.yml`, tạo topic, kiểm tra kết nối | TV2 (TV1 viết bản đầu) |
+| `infra/`, `docker-compose.yml` | Hạ tầng Kafka và Kafka UI, tạo topic (`infra/create_topics.py`) | TV2 |
 | `schemas/`, `docs/` | JSON Schema, data contract, kết quả thí nghiệm, ghi nhận AI, đóng góp | TV1 (và cả nhóm) |
 | `common/` | `validate.py` (kiểm tra sự kiện, dùng chung); `metrics.py` (TV3 bổ sung) | TV1, TV3 |
 | `src/generator/` | Sinh sự kiện, tiêm lỗi, `selftest.py`, `schema_check.py` | TV1 |
@@ -217,12 +222,13 @@ Phần Consumer (cách chạy, file tóm tắt đầu ra, ví dụ bản ghi tro
 |---|---|
 | `failed to connect to the docker API` | Docker Desktop chưa chạy: mở Docker Desktop, đợi "Engine running" |
 | Docker báo "WSL needs updating" | PowerShell Admin: `wsl --install --no-distribution --web-download`, khởi động lại máy |
-| Khởi động lại máy xong không vào được `localhost:8080` | Container không tự chạy lại: `docker compose -f infra/docker-compose.yml up -d` |
+| Khởi động lại máy xong không vào được `localhost:8080` | Container không tự chạy lại: `docker compose up -d` (tại thư mục gốc) |
 | Nhiều dòng `POLLHUP` hoặc `Coordinator load in progress` khi vừa bật Kafka | Kafka chưa khởi động xong; đợi 20-30 giây rồi chạy lại. Không phải lỗi |
 | `.venv\Scripts\Activate.ps1 cannot be loaded` | `Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned` |
 | `ModuleNotFoundError: confluent_kafka` | Chưa kích hoạt `.venv` hoặc chưa `pip install -r requirements.txt` trong `.venv` |
 | Gọi API qua `localhost` chậm bất thường | Dùng `127.0.0.1` |
 | Mất topic sau khi dọn dẹp | Không dùng `docker compose down -v` khi đang thí nghiệm. Chạy lại `python infra/create_topics.py` |
+| Producer/API báo không kết nối được Kafka (`Connect to ... failed`) | Kiểm tra `docker ps` (Kafka phải Up/healthy) và dùng cổng `29092`, không phải `9092` |
 
 ## 11. Ghi nhận dùng AI và đóng góp
 

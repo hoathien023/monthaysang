@@ -119,7 +119,8 @@ def run_one(args_dict, index):
 
 def parse():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--bootstrap", default="localhost:9092")
+    ap.add_argument("--bootstrap", default=os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:29092"),
+                    help="dia chi Kafka (mac dinh localhost:29092, theo docker-compose cua TV2)")
     ap.add_argument("--producers", type=int, default=1, help="so tien trinh producer")
     ap.add_argument("--rate", type=float, default=0, help="tong su kien/giay (0 = toi da)")
     ap.add_argument("--burst-rate", type=float, default=0, help="tong toc do trong giai doan burst (0 = tat)")

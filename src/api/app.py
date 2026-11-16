@@ -8,7 +8,7 @@ POST /events         1 su kien (JSON object)         -> 202 khi Kafka DA xac nha
 POST /events/batch   danh sach toi da 1000 su kien   -> 202 khi tat ca da xac nhan
 GET  /health         kiem tra ket noi Kafka
 GET  /stats          so request/su kien da nhan, toc do trung binh
-Bien moi truong: KAFKA_BOOTSTRAP (localhost:9092), API_ACKS (all), API_LINGER_MS (5)
+Bien moi truong: KAFKA_BOOTSTRAP_SERVERS (mac dinh localhost:29092; van doc KAFKA_BOOTSTRAP neu co), API_ACKS (all), API_LINGER_MS (5)
 """
 import asyncio, os, threading, time
 from contextlib import asynccontextmanager
@@ -39,7 +39,7 @@ def _poll_loop():
 async def lifespan(app: FastAPI):
     acks = os.getenv("API_ACKS", "all")
     state["producer"] = Producer({
-        "bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP", "localhost:9092"),
+        "bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP_SERVERS", os.getenv("KAFKA_BOOTSTRAP", "localhost:29092")),
         "acks": acks,
         "enable.idempotence": acks == "all",
         "linger.ms": int(os.getenv("API_LINGER_MS", "5")),
