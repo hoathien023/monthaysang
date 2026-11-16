@@ -61,7 +61,10 @@ def compare(manifest: dict, summary: dict) -> list[tuple[str, bool, str]]:
         add(f"  ly do '{reason}'", want.get(reason, 0) == got.get(reason, 0),
             f"tiem={want.get(reason, 0)} bat={got.get(reason, 0)}")
 
-    add("Khong thieu seq", seq["total_missing"] == 0, f"missing={seq['total_missing']}")
+    missing_real = seq.get("missing_unexplained", seq["total_missing"])
+    add("Khong thieu seq (da tru su kien loi khong doc duoc seq)", missing_real == 0,
+        f"missing_unexplained={missing_real} (tho={seq['total_missing']}, "
+        f"khong doc duoc seq={seq.get('untracked_events', 0)})")
     add("Khong trung seq", seq["total_duplicates"] == 0, f"duplicates={seq['total_duplicates']}")
     return rows
 

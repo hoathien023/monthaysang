@@ -264,6 +264,25 @@ class SeqTests(unittest.TestCase):
         self.assertEqual(r["total_missing"], 0)
         self.assertEqual(eng.invalid, 1)
 
+    def test_wrong_type_seq_gap_is_explained(self):
+        """E6: su kien co seq sai kieu da NHAN (vao DLQ) -> khong tinh la THIEU THAT."""
+        eng = vc.VerifyEngine(lambda k, v: None)
+        for s in (1, 2, 4, 5):
+            eng.handle("web.clickstream", 0, s, None, enc(make_click(seq=s)))
+        eng.handle("web.clickstream", 0, 3, None, enc(make_click(seq="3")))   # sai kieu
+        r = eng.report()["seq"]
+        self.assertEqual(r["total_missing"], 1)          # lo hong tho o seq 3
+        self.assertEqual(r["untracked_events"], 1)
+        self.assertEqual(r["missing_unexplained"], 0)    # nhung da duoc giai thich
+
+    def test_real_gap_still_reported_with_untracked(self):
+        eng = vc.VerifyEngine(lambda k, v: None)
+        for s in (1, 2, 5):                               # thieu 3 va 4
+            eng.handle("web.clickstream", 0, s, None, enc(make_click(seq=s)))
+        eng.handle("web.clickstream", 0, 9, None, enc(make_click(seq="3")))   # chi che duoc 1
+        r = eng.report()["seq"]
+        self.assertEqual((r["total_missing"], r["missing_unexplained"]), (2, 1))
+
     def test_event_without_seq_is_untracked(self):
         eng = vc.VerifyEngine(lambda k, v: None)
         ev = make_click()

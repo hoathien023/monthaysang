@@ -1,55 +1,55 @@
 {
   "run_name": "E6_dlq_r2",
-  "group_id": "verify-20261116_085118",
-  "started_utc": "2026-11-16T08:51:18.882Z",
-  "ended_utc": "2026-11-16T08:51:43.165Z",
+  "group_id": "verify-20261116_114726",
+  "started_utc": "2026-11-16T11:47:26.397Z",
+  "ended_utc": "2026-11-16T11:48:28.449Z",
   "stop_reason": "idle_timeout",
-  "wall_duration_s": 24.279,
-  "active_duration_s": 11.475,
-  "throughput_eps": 2091.4,
-  "max_receive_gap_s": 0.28,
+  "wall_duration_s": 62.034,
+  "active_duration_s": 49.435,
+  "throughput_eps": 2022.9,
+  "max_receive_gap_s": 0.32,
   "kafka_errors": {},
   "dlq": {
-    "sent": 1212,
-    "delivered": 1212,
+    "sent": 5057,
+    "delivered": 5057,
     "failed": 0
   },
   "counts": {
-    "received": 24000,
-    "valid": 22788,
-    "invalid": 1212,
-    "untracked_seq": 275,
+    "received": 100000,
+    "valid": 94943,
+    "invalid": 5057,
+    "untracked_seq": 1211,
     "key_mismatch": 0
   },
   "by_topic": {
     "web.clickstream": {
-      "received": 21662,
-      "valid": 20573,
-      "invalid": 1089
+      "received": 90137,
+      "valid": 85542,
+      "invalid": 4595
     },
     "web.transactions": {
-      "received": 2338,
-      "valid": 2215,
-      "invalid": 123
+      "received": 9863,
+      "valid": 9401,
+      "invalid": 462
     }
   },
   "invalid_by_reason": {
-    "ts_event_invalid_iso8601": 307,
-    "invalid_event_type": 285,
-    "wrong_type:seq": 275,
-    "missing_field:user_id": 105,
-    "missing_field:event_type": 104,
-    "missing_field:ts_event": 94,
-    "non_positive:total_amount": 23,
-    "empty_items": 19
+    "invalid_event_type": 1230,
+    "ts_event_invalid_iso8601": 1230,
+    "wrong_type:seq": 1211,
+    "missing_field:event_type": 435,
+    "missing_field:user_id": 395,
+    "missing_field:ts_event": 382,
+    "non_positive:total_amount": 87,
+    "empty_items": 87
   },
   "seq": {
     "per_producer": {
       "P01": {
-        "unique": 23725,
+        "unique": 98789,
         "min_seq": 1,
-        "max_seq": 24000,
-        "missing": 275,
+        "max_seq": 100000,
+        "missing": 1211,
         "duplicates": 0,
         "missing_ranges": [
           [
@@ -135,17 +135,19 @@
         ]
       }
     },
-    "total_missing": 275,
-    "total_duplicates": 0
+    "total_missing": 1211,
+    "total_duplicates": 0,
+    "untracked_events": 1211,
+    "missing_unexplained": 0
   },
   "latency_ms": {
-    "count": 22788,
-    "mean": 188.9858437835783,
-    "min": 12.0086669921875,
-    "p50": 185.02962589263916,
-    "p95": 317.9112553596498,
-    "p99": 491.72274351120046,
-    "max": 630.6326389312744
+    "count": 94943,
+    "mean": 180.9762417852628,
+    "min": 6.768941879272461,
+    "p50": 179.9616813659668,
+    "p95": 305.092453956604,
+    "p99": 343.2353210449219,
+    "max": 768.8968181610107
   },
   "checks": {
     "valid_plus_invalid_equals_received": true,
@@ -167,7 +169,7 @@
     "commit_every": 5000,
     "commit_interval": 5.0,
     "log_interval": 5.0,
-    "out_dir": "D:\\Download\\monthaysang\\results\\runs_tv3",
+    "out_dir": "C:\\doanthaysang\\monthaysang\\results\\runs_tv3",
     "run_name": "E6_dlq_r2",
     "strict_uuid": false,
     "no_total_check": false,

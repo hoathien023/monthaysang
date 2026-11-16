@@ -474,6 +474,13 @@ class VerifyEngine:
     def report(self) -> dict[str, Any]:
         lat = self.latency_ms
         pct = percentiles(lat, (50, 95, 99))
+        seq_report = self.seq.report()
+        # Su kien da NHAN nhung khong doc duoc (producer_id, seq) (vd seq sai kieu - E6)
+        # se de lai "lo hong" trong day seq du khong he mat. Tru so do khi ket luan THIEU THAT.
+        # Day la can DUOI cua so thieu that (neu loi khong phai su kien co seq thi co the che
+        # bot 1 lo hong that), nen ten la 'missing_unexplained'.
+        seq_report["untracked_events"] = self.untracked_seq
+        seq_report["missing_unexplained"] = max(0, seq_report["total_missing"] - self.untracked_seq)
         return {
             "counts": {
                 "received": self.received,
@@ -484,7 +491,7 @@ class VerifyEngine:
             },
             "by_topic": {t: dict(v) for t, v in sorted(self.by_topic.items())},
             "invalid_by_reason": dict(self.invalid_by_reason.most_common()),
-            "seq": self.seq.report(),
+            "seq": seq_report,
             "latency_ms": {
                 "count": len(lat),
                 "mean": (sum(lat) / len(lat)) if len(lat) else None,
@@ -801,8 +808,10 @@ def print_report(s: dict[str, Any]) -> None:
         for reason, n in s["invalid_by_reason"].items():
             print(f"     - {reason:<40} {n}")
     print(f"  DLQ gui/xac nhan/that bai: {s['dlq']['sent']} / {s['dlq']['delivered']} / {s['dlq']['failed']}")
-    print(f"  Seq THIEU / TRUNG       : {seq['total_missing']} / {seq['total_duplicates']}"
-          f"   (khong theo doi duoc seq: {c['untracked_seq']})")
+    print(f"  Seq THIEU (tho) / TRUNG : {seq['total_missing']} / {seq['total_duplicates']}"
+          f"   (su kien khong doc duoc seq: {c['untracked_seq']})")
+    print(f"  Seq THIEU THAT (da tru) : {seq['missing_unexplained']}"
+          f"   <- so dung de ket luan mat du lieu")
     for pid, p in seq["per_producer"].items():
         extra = f"  thieu o: {p['missing_ranges']}" if p["missing"] else ""
         print(f"     - {pid:<8} max_seq={p['max_seq']} khac_nhau={p['unique']} "

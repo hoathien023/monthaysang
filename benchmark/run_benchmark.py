@@ -297,7 +297,7 @@ def run_e4(cfg: dict[str, Any], reps: int) -> None:
                 "p50_ms": lat["p50"],
                 "p95_ms": lat["p95"],
                 "p99_ms": lat["p99"],
-                "missing": seq["total_missing"],
+                "missing": seq.get("missing_unexplained", seq.get("missing_unexplained", seq["total_missing"])),
                 "duplicates": seq["total_duplicates"],
             }
             append_csv(out_csv, row)
@@ -338,7 +338,7 @@ def run_e5(cfg: dict[str, Any], reps: int) -> None:
             "--offset-reset",
             "earliest",
             "--idle-timeout",
-            "20",
+            "90",
             "--start-timeout",
             "45",
             "--out-dir",
@@ -407,7 +407,7 @@ def run_e5(cfg: dict[str, Any], reps: int) -> None:
             "p50_ms": lat["p50"],
             "p95_ms": lat["p95"],
             "p99_ms": lat["p99"],
-            "missing": seq["total_missing"],
+            "missing": seq.get("missing_unexplained", seq["total_missing"]),
             "duplicates": seq["total_duplicates"],
         }
         append_csv(out_csv, row)
@@ -511,7 +511,7 @@ def run_e6(cfg: dict[str, Any], reps: int) -> None:
             "p50_ms": lat["p50"],
             "p95_ms": lat["p95"],
             "p99_ms": lat["p99"],
-            "missing": seq["total_missing"],
+            "missing": seq.get("missing_unexplained", seq["total_missing"]),
             "duplicates": seq["total_duplicates"],
         }
         append_csv(out_csv, row)
