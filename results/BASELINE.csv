@@ -1,0 +1,4 @@
+﻿experiment,run,params,events,duration_s,throughput_eps,p50_ms,p95_ms,p99_ms,missing,duplicates
+BASELINE,1,"{""tool"":""kafka-producer-perf-test"",""topic"":""bench.p6"",""record_size"":380,""acks"":""all""}",200000,4.068,84889.6,526.0,663.0,676.0,0,0
+BASELINE,2,"{""tool"":""kafka-producer-perf-test"",""topic"":""bench.p6"",""record_size"":380,""acks"":""all""}",200000,5.234,66912.0,297.0,868.0,888.0,0,0
+BASELINE,3,"{""tool"":""kafka-producer-perf-test"",""topic"":""bench.p6"",""record_size"":380,""acks"":""all""}",200000,10.553,23772.7,1061.0,4314.0,4353.0,0,0

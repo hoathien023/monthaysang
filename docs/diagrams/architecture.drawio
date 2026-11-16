@@ -1,0 +1,122 @@
+<mxfile host="app.diagrams.net" modified="2026-11-15T17:00:00.000Z" agent="TV3" version="24.7.17" type="device">
+  <diagram id="sources-ingestion-arch" name="Sources to Ingestion Architecture">
+    <mxGraphModel dx="1420" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="KIẾN TRÚC &amp; LUỒNG DỮ LIỆU: QUY TRÌNH 1 (SOURCES → INGESTION)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#1e293b;" vertex="1" parent="1">
+          <mxGeometry x="260" y="15" width="880" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- Group: Sources -->
+        <mxCell id="grp_src" value="1. SOURCES (TV1)" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fontSize=13;fillColor=#eff6ff;strokeColor=#3b82f6;dashed=1;dashPattern=6 4;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="70" width="230" height="350" as="geometry"/>
+        </mxCell>
+        <mxCell id="gen" value="Event Generator&#xa;(src/generator/generator.py)&#xa;• Clickstream &amp; Transaction&#xa;• Seed cố định, burst mode&#xa;• Tiêm lỗi (--bad-ratio)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="48" y="120" width="194" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="clients" value="HTTP Load Clients / App&#xa;(src/api/load_client.py)&#xa;• 1 / 10 / 50 clients (E7)&#xa;• Single &amp; Batch (100)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="48" y="275" width="194" height="105" as="geometry"/>
+        </mxCell>
+
+        <!-- Group: Producers / API -->
+        <mxCell id="grp_prod" value="2. INGESTION ENTRY (TV1)" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fontSize=13;fillColor=#f0fdf4;strokeColor=#22c55e;dashed=1;dashPattern=6 4;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="320" y="70" width="250" height="350" as="geometry"/>
+        </mxCell>
+        <mxCell id="producer" value="Python Producer&#xa;(src/producer/producer.py)&#xa;• confluent-kafka (multiprocess)&#xa;• key = user_id, seq tăng dần&#xa;• acks=all, idempotence=True" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="340" y="120" width="210" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="api" value="REST API (FastAPI + Uvicorn)&#xa;(src/api/app.py - port 8000)&#xa;• POST /events, /events/batch&#xa;• GET /health, /stats, /docs&#xa;• 202 Accepted / 503 Error" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="340" y="275" width="210" height="115" as="geometry"/>
+        </mxCell>
+
+        <!-- Group: Kafka Broker -->
+        <mxCell id="grp_kafka" value="3. APACHE KAFKA BROKER - KRaft Docker (TV2)" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fontSize=13;fillColor=#fff7ed;strokeColor=#f97316;dashed=1;dashPattern=6 4;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="70" width="280" height="470" as="geometry"/>
+        </mxCell>
+        <mxCell id="t_click" value="Topic: web.clickstream&#xa;6 Partitions | RF=1 | key=user_id&#xa;page_view, search, click, add_to_cart" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#ffedd5;strokeColor=#ea580c;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="665" y="120" width="230" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="t_tx" value="Topic: web.transactions&#xa;3 Partitions | RF=1 | key=user_id&#xa;order_created, payment_*" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#ffedd5;strokeColor=#ea580c;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="665" y="230" width="230" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="t_bench" value="Topics: bench.p1 / p3 / p6&#xa;1 / 3 / 6 Partitions (E1, E4, Baseline)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#fef3c7;strokeColor=#d97706;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="665" y="340" width="230" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="t_dlq" value="Topic: web.events.dlq (DLQ)&#xa;1 Partition | key=event_id&#xa;payload gốc + error_reason + ts_failed" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="665" y="435" width="230" height="85" as="geometry"/>
+        </mxCell>
+
+        <!-- Kafka UI & Volume -->
+        <mxCell id="kafka_ui" value="Kafka UI (:8080)&#xa;Giám sát topic, partition, message" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef9c3;strokeColor=#ca8a04;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="665" y="575" width="230" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="vol" value="Docker Volume: kafka_data&#xa;(/var/kafka/logs, retention 168h)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#f1f5f9;strokeColor=#64748b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="665" y="655" width="230" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- Group: Verification Consumer -->
+        <mxCell id="grp_cons" value="4. KIỂM CHỨNG &amp; ĐO ĐẠC (TV2 + TV3)" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fontSize=13;fillColor=#faf5ff;strokeColor=#9333ea;dashed=1;dashPattern=6 4;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="990" y="70" width="370" height="470" as="geometry"/>
+        </mxCell>
+        <mxCell id="consumer" value="Consumer kiểm chứng&#xa;(consumer/verify_consumer.py)&#xa;• Validate JSON theo Data Contract v1.0&#xa;• Kiểm tra thiếu/trùng seq theo producer_id&#xa;• Đo latency = t_read - ts_event&#xa;• Đẩy bản ghi lỗi sang web.events.dlq" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#7e22ce;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="125" width="310" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="metrics" value="Metrics &amp; Benchmark Runner (TV3)&#xa;(common/metrics.py, benchmark/run_benchmark.py)&#xa;• Throughput (eps), p50 / p95 / p99&#xa;• Chạy ma trận E1–E7 (≥ 3 lần lặp)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#6d28d9;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="290" width="310" height="95" as="geometry"/>
+        </mxCell>
+        <mxCell id="storage" value="Lưu trữ kết quả &amp; Minh chứng&#xa;• results/*.csv (11 cột chuẩn), runs/*.json&#xa;• charts/*.png (matplotlib)&#xa;• evidence/* (ảnh Kafka UI, terminal, log)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="420" width="310" height="95" as="geometry"/>
+        </mxCell>
+
+        <!-- Downstream handoff -->
+        <mxCell id="downstream" value="Nhóm sau: INGESTION → STORAGE (Data Lake)&#xa;Đọc trực tiếp từ web.clickstream &amp; web.transactions theo Data Contract v1.0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#475569;dashed=1;fontSize=12;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="990" y="575" width="370" height="65" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell id="e1" value="Python call" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2563eb;" edge="1" parent="1" source="gen" target="producer">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="HTTP POST (JSON)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2563eb;" edge="1" parent="1" source="clients" target="api">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="Kafka Protocol&#xa;JSON UTF-8" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#16a34a;" edge="1" parent="1" source="producer" target="t_click">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="Kafka Protocol" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#16a34a;" edge="1" parent="1" source="producer" target="t_tx">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="Kafka Protocol" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#16a34a;" edge="1" parent="1" source="api" target="t_click">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="Kafka Protocol" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#16a34a;" edge="1" parent="1" source="api" target="t_tx">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" value="Consume (localhost:29092)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#7e22ce;" edge="1" parent="1" source="t_click" target="consumer">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#7e22ce;" edge="1" parent="1" source="t_tx" target="consumer">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9" value="Sự kiện lỗi (DLQ)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#dc2626;dashed=1;" edge="1" parent="1" source="consumer" target="t_dlq">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#6d28d9;" edge="1" parent="1" source="consumer" target="metrics">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e11" value="CSV / JSON / PNG" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#0284c7;" edge="1" parent="1" source="metrics" target="storage">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e12" value="INTERNAL kafka:9092" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=1.5;strokeColor=#ca8a04;dashed=1;" edge="1" parent="1" source="grp_kafka" target="kafka_ui">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e13" value="Data Contract v1.0" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#475569;dashed=1;" edge="1" parent="1" source="grp_kafka" target="downstream">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

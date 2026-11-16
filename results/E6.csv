@@ -1,0 +1,4 @@
+﻿experiment,run,params,events,duration_s,throughput_eps,p50_ms,p95_ms,p99_ms,missing,duplicates
+E6,1,"{""bad_ratio"":0.05,""injected"":1212,""invalid_detected"":1212,""dlq_delivered"":1212}",24000,11.487,2089.3,213.61005306243896,361.56221628189087,504.1031241416932,275,0
+E6,2,"{""bad_ratio"":0.05,""injected"":1212,""invalid_detected"":1212,""dlq_delivered"":1212}",24000,11.482,2090.3,215.22080898284912,358.7491750717164,465.8025646209717,275,0
+E6,3,"{""bad_ratio"":0.05,""injected"":1212,""invalid_detected"":1212,""dlq_delivered"":1212}",24000,11.453,2095.5,214.5700454711914,359.6883177757265,517.3208522796634,275,0

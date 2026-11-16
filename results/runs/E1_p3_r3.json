@@ -1,0 +1,82 @@
+{
+  "run_id": "E1_p3_r3",
+  "params": {
+    "bootstrap": "localhost:29092",
+    "producers": 1,
+    "rate": 0,
+    "burst_rate": 0,
+    "burst_every": 10,
+    "burst_seconds": 2,
+    "n": 200000,
+    "duration": 0,
+    "topic": "bench.p3",
+    "txn_ratio": 0.1,
+    "bad_ratio": 0.0,
+    "seed": 42,
+    "acks": "all",
+    "linger_ms": 5,
+    "batch_size": 65536,
+    "compression": "none",
+    "run_id": "E1_p3_r3"
+  },
+  "wall_seconds": 9.479,
+  "sent": 200000,
+  "delivered": 200000,
+  "failed": 0,
+  "throughput_delivered_eps": 21112.6,
+  "ack_latency_ms": {
+    "p50": 63.27,
+    "p95": 859.73,
+    "p99": 1074.49
+  },
+  "injected_total": 0,
+  "injected_by_kind": {},
+  "timeline_sent_per_s": [
+    32289,
+    16247,
+    13976,
+    17031,
+    18767,
+    21256,
+    24538,
+    22445,
+    20164,
+    13287
+  ],
+  "rate_per_s": {
+    "min": 13976,
+    "avg": 20745.9,
+    "max": 32289,
+    "seconds_with_zero": 0
+  },
+  "producers": [
+    {
+      "producer_id": "P01",
+      "sent": 200000,
+      "delivered": 200000,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 200000,
+      "seconds_produce": 9.372,
+      "seconds_total": 9.473,
+      "per_topic": {
+        "bench.p3": 200000
+      },
+      "injected_errors": {},
+      "delivery_errors": [],
+      "timeline_sent_per_s": [
+        32289,
+        16247,
+        13976,
+        17031,
+        18767,
+        21256,
+        24538,
+        22445,
+        20164,
+        13287
+      ]
+    }
+  ]
+}

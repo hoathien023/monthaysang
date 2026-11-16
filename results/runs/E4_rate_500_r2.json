@@ -1,0 +1,92 @@
+{
+  "run_id": "E4_rate_500_r2",
+  "params": {
+    "bootstrap": "localhost:29092",
+    "producers": 1,
+    "rate": 500.0,
+    "burst_rate": 0,
+    "burst_every": 10,
+    "burst_seconds": 2,
+    "n": 0,
+    "duration": 15.0,
+    "topic": "bench.p6",
+    "txn_ratio": 0.1,
+    "bad_ratio": 0.0,
+    "seed": 42,
+    "acks": "all",
+    "linger_ms": 5,
+    "batch_size": 65536,
+    "compression": "none",
+    "run_id": "E4_rate_500_r2"
+  },
+  "wall_seconds": 15.038,
+  "sent": 7497,
+  "delivered": 7497,
+  "failed": 0,
+  "throughput_delivered_eps": 498.9,
+  "ack_latency_ms": {
+    "p50": 29.15,
+    "p95": 68.59,
+    "p99": 364.99
+  },
+  "injected_total": 0,
+  "injected_by_kind": {},
+  "timeline_sent_per_s": [
+    500,
+    500,
+    499,
+    496,
+    505,
+    500,
+    500,
+    498,
+    497,
+    501,
+    499,
+    504,
+    496,
+    505,
+    497
+  ],
+  "rate_per_s": {
+    "min": 496,
+    "avg": 500.0,
+    "max": 505,
+    "seconds_with_zero": 0
+  },
+  "producers": [
+    {
+      "producer_id": "P01",
+      "sent": 7497,
+      "delivered": 7497,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 7497,
+      "seconds_produce": 15.008,
+      "seconds_total": 15.027,
+      "per_topic": {
+        "bench.p6": 7497
+      },
+      "injected_errors": {},
+      "delivery_errors": [],
+      "timeline_sent_per_s": [
+        500,
+        500,
+        499,
+        496,
+        505,
+        500,
+        500,
+        498,
+        497,
+        501,
+        499,
+        504,
+        496,
+        505,
+        497
+      ]
+    }
+  ]
+}

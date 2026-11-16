@@ -1,0 +1,2 @@
+﻿experiment,run,params,events,duration_s,throughput_eps,p50_ms,p95_ms,p99_ms,missing,duplicates
+E5,1,"{""rate_eps"":1000,""duration_s"":75,""restart_at_s"":25,""max_gap_s"":30.43}",75000,76.014,986.7,4521.318197250366,26734.56124067307,29705.99497079849,0,0

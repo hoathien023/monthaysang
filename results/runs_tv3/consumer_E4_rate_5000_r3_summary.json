@@ -1,0 +1,81 @@
+{
+  "run_name": "E4_rate_5000_r3",
+  "group_id": "verify-20261115_170511",
+  "started_utc": "2026-11-15T17:05:11.295Z",
+  "ended_utc": "2026-11-15T17:05:38.076Z",
+  "stop_reason": "idle_timeout",
+  "wall_duration_s": 26.763,
+  "active_duration_s": 15.476,
+  "throughput_eps": 4844.5,
+  "max_receive_gap_s": 1.02,
+  "kafka_errors": {},
+  "dlq": {
+    "sent": 0,
+    "delivered": 0,
+    "failed": 0
+  },
+  "counts": {
+    "received": 74976,
+    "valid": 74976,
+    "invalid": 0,
+    "untracked_seq": 0,
+    "key_mismatch": 0
+  },
+  "by_topic": {
+    "bench.p6": {
+      "received": 74976,
+      "valid": 74976,
+      "invalid": 0
+    }
+  },
+  "invalid_by_reason": {},
+  "seq": {
+    "per_producer": {
+      "P01": {
+        "unique": 74976,
+        "min_seq": 1,
+        "max_seq": 74976,
+        "missing": 0,
+        "duplicates": 0,
+        "missing_ranges": []
+      }
+    },
+    "total_missing": 0,
+    "total_duplicates": 0
+  },
+  "latency_ms": {
+    "count": 74976,
+    "mean": 136.8212377317838,
+    "min": 17.092227935791016,
+    "p50": 125.4502534866333,
+    "p95": 196.6843605041504,
+    "p99": 498.57407808303833,
+    "max": 1119.3006038665771
+  },
+  "checks": {
+    "valid_plus_invalid_equals_received": true,
+    "dlq_sent_equals_invalid": true,
+    "dlq_all_delivered": true
+  },
+  "args": {
+    "bootstrap_servers": "localhost:29092",
+    "topics": [
+      "bench.p6"
+    ],
+    "group_id": null,
+    "offset_reset": "earliest",
+    "idle_timeout": 8.0,
+    "start_timeout": 30.0,
+    "max_messages": 0,
+    "batch_size": 500,
+    "commit_every": 5000,
+    "commit_interval": 5.0,
+    "log_interval": 5.0,
+    "out_dir": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Big Data\\tv3-experiments-evidence\\results\\runs_tv3",
+    "run_name": "E4_rate_5000_r3",
+    "strict_uuid": false,
+    "no_total_check": false,
+    "max_seq": 50000000,
+    "verbose": false
+  }
+}
