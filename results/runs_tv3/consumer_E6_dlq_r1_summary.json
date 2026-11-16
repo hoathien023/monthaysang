@@ -1,13 +1,13 @@
 {
   "run_name": "E6_dlq_r1",
-  "group_id": "verify-20261115_171349",
-  "started_utc": "2026-11-15T17:13:49.502Z",
-  "ended_utc": "2026-11-15T17:14:13.674Z",
+  "group_id": "verify-20261116_085049",
+  "started_utc": "2026-11-16T08:50:49.402Z",
+  "ended_utc": "2026-11-16T08:51:13.709Z",
   "stop_reason": "idle_timeout",
-  "wall_duration_s": 24.168,
-  "active_duration_s": 11.487,
-  "throughput_eps": 2089.3,
-  "max_receive_gap_s": 0.39,
+  "wall_duration_s": 24.302,
+  "active_duration_s": 11.478,
+  "throughput_eps": 2090.9,
+  "max_receive_gap_s": 0.31,
   "kafka_errors": {},
   "dlq": {
     "sent": 1212,
@@ -140,12 +140,12 @@
   },
   "latency_ms": {
     "count": 22788,
-    "mean": 217.30295636056704,
-    "min": 16.669273376464844,
-    "p50": 213.61005306243896,
-    "p95": 361.56221628189087,
-    "p99": 504.1031241416932,
-    "max": 628.5691261291504
+    "mean": 193.28566390170283,
+    "min": 14.681816101074219,
+    "p50": 190.04178047180176,
+    "p95": 318.3160185813905,
+    "p99": 470.63640356063945,
+    "max": 796.5502738952637
   },
   "checks": {
     "valid_plus_invalid_equals_received": true,
@@ -167,7 +167,7 @@
     "commit_every": 5000,
     "commit_interval": 5.0,
     "log_interval": 5.0,
-    "out_dir": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Big Data\\tv3-experiments-evidence\\results\\runs_tv3",
+    "out_dir": "D:\\Download\\monthaysang\\results\\runs_tv3",
     "run_name": "E6_dlq_r1",
     "strict_uuid": false,
     "no_total_check": false,

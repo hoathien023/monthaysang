@@ -19,15 +19,15 @@
     "compression": "none",
     "run_id": "E6_dlq_r3"
   },
-  "wall_seconds": 12.054,
+  "wall_seconds": 12.047,
   "sent": 24000,
   "delivered": 24000,
   "failed": 0,
-  "throughput_delivered_eps": 1992.4,
+  "throughput_delivered_eps": 1993.2,
   "ack_latency_ms": {
-    "p50": 57.74,
-    "p95": 139.76,
-    "p99": 450.21
+    "p50": 29.15,
+    "p95": 52.25,
+    "p99": 420.72
   },
   "injected_total": 1212,
   "injected_by_kind": {
@@ -39,23 +39,23 @@
     "empty_items": 19
   },
   "timeline_sent_per_s": [
-    1999,
-    2001,
     2000,
-    1999,
-    2001,
     2000,
-    1991,
-    2009,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
     2000,
     2000,
     2000,
     2000
   ],
   "rate_per_s": {
-    "min": 1991,
+    "min": 2000,
     "avg": 2000.0,
-    "max": 2009,
+    "max": 2000,
     "seconds_with_zero": 0
   },
   "producers": [
@@ -68,7 +68,7 @@
       "seq_first": 1,
       "seq_last": 24000,
       "seconds_produce": 12.0,
-      "seconds_total": 12.046,
+      "seconds_total": 12.041,
       "per_topic": {
         "web.clickstream": 21662,
         "web.transactions": 2338
@@ -83,14 +83,14 @@
       },
       "delivery_errors": [],
       "timeline_sent_per_s": [
-        1999,
-        2001,
         2000,
-        1999,
-        2001,
         2000,
-        1991,
-        2009,
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
         2000,
         2000,
         2000,
