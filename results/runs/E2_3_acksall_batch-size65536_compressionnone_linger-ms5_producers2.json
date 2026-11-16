@@ -1,0 +1,65 @@
+{
+  "run_id": "E2_3_acksall_batch-size65536_compressionnone_linger-ms5_producers2",
+  "params": {
+    "bootstrap": "localhost:9092",
+    "producers": 2,
+    "rate": 0,
+    "n": 0,
+    "duration": 20.0,
+    "topic": "bench.p6",
+    "txn_ratio": 0.1,
+    "bad_ratio": 0.0,
+    "seed": 42,
+    "acks": "all",
+    "linger_ms": 5,
+    "batch_size": 65536,
+    "compression": "none",
+    "run_id": "E2_3_acksall_batch-size65536_compressionnone_linger-ms5_producers2"
+  },
+  "wall_seconds": 20.399,
+  "sent": 1523220,
+  "delivered": 1523220,
+  "failed": 0,
+  "throughput_delivered_eps": 75755.7,
+  "ack_latency_ms": {
+    "p50": 36.62,
+    "p95": 66.84,
+    "p99": 440.22
+  },
+  "injected_total": 0,
+  "injected_by_kind": {},
+  "producers": [
+    {
+      "producer_id": "P01",
+      "sent": 762509,
+      "delivered": 762509,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 762509,
+      "seconds_produce": 20.0,
+      "seconds_total": 20.107,
+      "per_topic": {
+        "bench.p6": 762509
+      },
+      "injected_errors": {},
+      "delivery_errors": []
+    },
+    {
+      "producer_id": "P02",
+      "sent": 760711,
+      "delivered": 760711,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 760711,
+      "seconds_produce": 20.0,
+      "seconds_total": 20.087,
+      "per_topic": {
+        "bench.p6": 760711
+      },
+      "injected_errors": {},
+      "delivery_errors": []
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+experiment,config,rep,producers,acks,linger_ms,batch_size,compression,sent,delivered,failed,duration_s,throughput_eps,ack_p50_ms,ack_p95_ms,ack_p99_ms
+E2,acksall_batch-size65536_compressionnone_linger-ms5_producers1,1,1,all,5,65536,none,797256,797256,0,20.08,39713.9,36.65,95.35,505.58
+E2,acksall_batch-size65536_compressionnone_linger-ms5_producers1,2,1,all,5,65536,none,713418,713418,0,20.065,35564.2,38.42,83.67,420.43
+E2,acksall_batch-size65536_compressionnone_linger-ms5_producers1,3,1,all,5,65536,none,791178,791178,0,20.124,39324.9,37.06,69.08,421.75
+E2,acksall_batch-size65536_compressionnone_linger-ms5_producers2,1,2,all,5,65536,none,1189061,1189061,0,20.414,59186.7,40.69,88.53,460.91
+E2,acksall_batch-size65536_compressionnone_linger-ms5_producers2,2,2,all,5,65536,none,1344104,1344104,0,20.364,66927.5,39.34,79.04,459.26
+E2,acksall_batch-size65536_compressionnone_linger-ms5_producers2,3,2,all,5,65536,none,1523220,1523220,0,20.399,75755.7,36.62,66.84,440.22
+E2,acksall_batch-size65536_compressionnone_linger-ms5_producers4,1,4,all,5,65536,none,1890092,1890092,0,20.393,94156.2,45.93,129.35,526.17
+E2,acksall_batch-size65536_compressionnone_linger-ms5_producers4,2,4,all,5,65536,none,1537581,1537581,0,20.376,76576.6,49.62,136.59,551.42
+E2,acksall_batch-size65536_compressionnone_linger-ms5_producers4,3,4,all,5,65536,none,1342433,1342433,0,20.426,66728.0,52.67,132.3,525.89

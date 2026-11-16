@@ -1,0 +1,149 @@
+=== E6_dlq_r1 ===
+-- PRODUCER --
+[E6_dlq_r1] 1 producer, rate=2000.0, acks=all, linger=5ms, batch=65536, nen=none, bad=0.05
+  gui: 24000 | xac nhan: 24000 | loi gui: 0 | 1994.2 su kien/giay | loi da tiem: 1212
+  toc do moi giay: min=2000 avg=2000.0 max=2000 | so giay khong gui: 0
+  do tre xac nhan (ms): p50=29.38 p95=52.87 p99=414.37
+  tom tat: results/runs/E6_dlq_r1.json
+
+
+-- CONSUMER --
+
+================================================================
+TOM TAT: E6_dlq_r1   (dung vi: idle_timeout)
+================================================================
+  Thoi gian hoat dong     : 11.478 s   (tong: 24.302 s)
+  Nhan                    : 24000   (2090.9 su kien/giay)
+  Hop le / Loi            : 22788 / 1212
+     - web.clickstream    nhan=21662 hop_le=20573 loi=1089
+     - web.transactions   nhan=2338 hop_le=2215 loi=123
+  Ly do loi:
+     - ts_event_invalid_iso8601                 307
+     - invalid_event_type                       285
+     - wrong_type:seq                           275
+     - missing_field:user_id                    105
+     - missing_field:event_type                 104
+     - missing_field:ts_event                   94
+     - non_positive:total_amount                23
+     - empty_items                              19
+  DLQ gui/xac nhan/that bai: 1212 / 1212 / 0
+  Seq THIEU / TRUNG       : 275 / 0   (khong theo doi duoc seq: 275)
+     - P01      max_seq=24000 khac_nhau=23725 thieu=275 trung=0  thieu o: [[101, 101], [320, 320], [323, 323], [334, 334], [481, 481], [532, 532], [618, 618], [791, 791], [824, 824], [840, 840], [963, 963], [1004, 1004], [1045, 1045], [1118, 1118], [1224, 1224], [1347, 1347], [1416, 1416], [1455, 1455], [1683, 1683], [1718, 1718]]
+  Do tre (ms)             : p50=190.0 p95=318.3 p99=470.6 max=796.6
+  Khoang lang lon nhat    : 0.31 s
+  Kiem tra doi chieu      : {'valid_plus_invalid_equals_received': True, 'dlq_sent_equals_invalid': True, 'dlq_all_delivered': True}
+================================================================
+
+
+15:50:49 [INFO] === verify_consumer.py ===
+15:50:49 [INFO] Bootstrap : localhost:29092
+15:50:49 [INFO] Topics    : ['web.clickstream', 'web.transactions']
+15:50:49 [INFO] Group id  : verify-20261116_085049 (offset.reset=latest)
+15:50:49 [INFO] Ket qua   : D:\Download\monthaysang\results\runs_tv3\consumer_E6_dlq_r1_summary.json , D:\Download\monthaysang\results\runs_tv3\consumer_E6_dlq_r1_timeline.csv
+15:50:54 [INFO] nhan=2000 (+2000, 385 ev/s) hop_le=1907 loi=93 dlq=93 | tre p50=234.4 p95=538.6 ms
+15:50:59 [INFO] nhan=12500 (+10500, 1998 ev/s) hop_le=11887 loi=613 dlq=613 | tre p50=189.2 p95=305.3 ms
+15:51:05 [INFO] nhan=23000 (+10500, 2019 ev/s) hop_le=21835 loi=1165 dlq=1165 | tre p50=186.1 p95=305.3 ms
+15:51:10 [INFO] nhan=24000 (+1000, 178 ev/s) hop_le=22788 loi=1212 dlq=1212 | tre p50=176.3 p95=284.2 ms
+15:51:13 [INFO] Dung (idle_timeout). Dang flush DLQ, commit offset...
+15:51:13 [INFO] Da ghi D:\Download\monthaysang\results\runs_tv3\consumer_E6_dlq_r1_summary.json
+
+
+=== E6_dlq_r2 ===
+-- PRODUCER --
+[E6_dlq_r2] 1 producer, rate=2000.0, acks=all, linger=5ms, batch=65536, nen=none, bad=0.05
+  gui: 24000 | xac nhan: 24000 | loi gui: 0 | 1997.3 su kien/giay | loi da tiem: 1212
+  toc do moi giay: min=2000 avg=2000.0 max=2000 | so giay khong gui: 0
+  do tre xac nhan (ms): p50=29.77 p95=54.59 p99=420.19
+  tom tat: results/runs/E6_dlq_r2.json
+
+
+-- CONSUMER --
+
+================================================================
+TOM TAT: E6_dlq_r2   (dung vi: idle_timeout)
+================================================================
+  Thoi gian hoat dong     : 11.475 s   (tong: 24.279 s)
+  Nhan                    : 24000   (2091.4 su kien/giay)
+  Hop le / Loi            : 22788 / 1212
+     - web.clickstream    nhan=21662 hop_le=20573 loi=1089
+     - web.transactions   nhan=2338 hop_le=2215 loi=123
+  Ly do loi:
+     - ts_event_invalid_iso8601                 307
+     - invalid_event_type                       285
+     - wrong_type:seq                           275
+     - missing_field:user_id                    105
+     - missing_field:event_type                 104
+     - missing_field:ts_event                   94
+     - non_positive:total_amount                23
+     - empty_items                              19
+  DLQ gui/xac nhan/that bai: 1212 / 1212 / 0
+  Seq THIEU / TRUNG       : 275 / 0   (khong theo doi duoc seq: 275)
+     - P01      max_seq=24000 khac_nhau=23725 thieu=275 trung=0  thieu o: [[101, 101], [320, 320], [323, 323], [334, 334], [481, 481], [532, 532], [618, 618], [791, 791], [824, 824], [840, 840], [963, 963], [1004, 1004], [1045, 1045], [1118, 1118], [1224, 1224], [1347, 1347], [1416, 1416], [1455, 1455], [1683, 1683], [1718, 1718]]
+  Do tre (ms)             : p50=185.0 p95=317.9 p99=491.7 max=630.6
+  Khoang lang lon nhat    : 0.28 s
+  Kiem tra doi chieu      : {'valid_plus_invalid_equals_received': True, 'dlq_sent_equals_invalid': True, 'dlq_all_delivered': True}
+================================================================
+
+
+15:51:18 [INFO] === verify_consumer.py ===
+15:51:18 [INFO] Bootstrap : localhost:29092
+15:51:18 [INFO] Topics    : ['web.clickstream', 'web.transactions']
+15:51:18 [INFO] Group id  : verify-20261116_085118 (offset.reset=latest)
+15:51:18 [INFO] Ket qua   : D:\Download\monthaysang\results\runs_tv3\consumer_E6_dlq_r2_summary.json , D:\Download\monthaysang\results\runs_tv3\consumer_E6_dlq_r2_timeline.csv
+15:51:24 [INFO] nhan=2000 (+2000, 391 ev/s) hop_le=1905 loi=95 dlq=95 | tre p50=234.2 p95=561.2 ms
+15:51:29 [INFO] nhan=12000 (+10000, 1990 ev/s) hop_le=11418 loi=582 dlq=582 | tre p50=178.5 p95=294.7 ms
+15:51:34 [INFO] nhan=22500 (+10500, 1999 ev/s) hop_le=21357 loi=1143 dlq=1143 | tre p50=182.6 p95=304.7 ms
+15:51:40 [INFO] nhan=24000 (+1500, 256 ev/s) hop_le=22788 loi=1212 dlq=1212 | tre p50=198.7 p95=313.5 ms
+15:51:43 [INFO] Dung (idle_timeout). Dang flush DLQ, commit offset...
+15:51:43 [INFO] Da ghi D:\Download\monthaysang\results\runs_tv3\consumer_E6_dlq_r2_summary.json
+
+
+=== E6_dlq_r3 ===
+-- PRODUCER --
+[E6_dlq_r3] 1 producer, rate=2000.0, acks=all, linger=5ms, batch=65536, nen=none, bad=0.05
+  gui: 24000 | xac nhan: 24000 | loi gui: 0 | 1993.2 su kien/giay | loi da tiem: 1212
+  toc do moi giay: min=2000 avg=2000.0 max=2000 | so giay khong gui: 0
+  do tre xac nhan (ms): p50=29.15 p95=52.25 p99=420.72
+  tom tat: results/runs/E6_dlq_r3.json
+
+
+-- CONSUMER --
+
+================================================================
+TOM TAT: E6_dlq_r3   (dung vi: idle_timeout)
+================================================================
+  Thoi gian hoat dong     : 11.5 s   (tong: 24.357 s)
+  Nhan                    : 24000   (2087.0 su kien/giay)
+  Hop le / Loi            : 22788 / 1212
+     - web.clickstream    nhan=21662 hop_le=20573 loi=1089
+     - web.transactions   nhan=2338 hop_le=2215 loi=123
+  Ly do loi:
+     - ts_event_invalid_iso8601                 307
+     - invalid_event_type                       285
+     - wrong_type:seq                           275
+     - missing_field:user_id                    105
+     - missing_field:event_type                 104
+     - missing_field:ts_event                   94
+     - non_positive:total_amount                23
+     - empty_items                              19
+  DLQ gui/xac nhan/that bai: 1212 / 1212 / 0
+  Seq THIEU / TRUNG       : 275 / 0   (khong theo doi duoc seq: 275)
+     - P01      max_seq=24000 khac_nhau=23725 thieu=275 trung=0  thieu o: [[101, 101], [320, 320], [323, 323], [334, 334], [481, 481], [532, 532], [618, 618], [791, 791], [824, 824], [840, 840], [963, 963], [1004, 1004], [1045, 1045], [1118, 1118], [1224, 1224], [1347, 1347], [1416, 1416], [1455, 1455], [1683, 1683], [1718, 1718]]
+  Do tre (ms)             : p50=183.1 p95=315.4 p99=482.1 max=760.7
+  Khoang lang lon nhat    : 0.28 s
+  Kiem tra doi chieu      : {'valid_plus_invalid_equals_received': True, 'dlq_sent_equals_invalid': True, 'dlq_all_delivered': True}
+================================================================
+
+
+15:51:48 [INFO] === verify_consumer.py ===
+15:51:48 [INFO] Bootstrap : localhost:29092
+15:51:48 [INFO] Topics    : ['web.clickstream', 'web.transactions']
+15:51:48 [INFO] Group id  : verify-20261116_085148 (offset.reset=latest)
+15:51:48 [INFO] Ket qua   : D:\Download\monthaysang\results\runs_tv3\consumer_E6_dlq_r3_summary.json , D:\Download\monthaysang\results\runs_tv3\consumer_E6_dlq_r3_timeline.csv
+15:51:53 [INFO] nhan=2000 (+2000, 384 ev/s) hop_le=1907 loi=93 dlq=93 | tre p50=219.2 p95=549.6 ms
+15:51:58 [INFO] nhan=12000 (+10000, 1986 ev/s) hop_le=11415 loi=585 dlq=585 | tre p50=183.5 p95=305.9 ms
+15:52:03 [INFO] nhan=22500 (+10500, 2014 ev/s) hop_le=21356 loi=1144 dlq=1144 | tre p50=175.3 p95=293.3 ms
+15:52:09 [INFO] nhan=24000 (+1500, 255 ev/s) hop_le=22788 loi=1212 dlq=1212 | tre p50=201.6 p95=313.5 ms
+15:52:12 [INFO] Dung (idle_timeout). Dang flush DLQ, commit offset...
+15:52:12 [INFO] Da ghi D:\Download\monthaysang\results\runs_tv3\consumer_E6_dlq_r3_summary.json
+

@@ -1,0 +1,25 @@
+{
+  "run_id": "E7_2_batch_c10",
+  "params": {
+    "url": "http://127.0.0.1:8000",
+    "clients": 10,
+    "duration": 20.0,
+    "mode": "batch",
+    "batch_size": 100,
+    "txn_ratio": 0.1,
+    "bad_ratio": 0.0,
+    "seed": 1000,
+    "run_id": "E7_2_batch_c10"
+  },
+  "wall_seconds": 20.1,
+  "requests_ok": 2405,
+  "requests_failed": 0,
+  "events_accepted": 240500,
+  "requests_per_s": 119.7,
+  "events_per_s": 11967.0,
+  "latency_ms": {
+    "p50": 73.82,
+    "p95": 120.7,
+    "p99": 143.82
+  }
+}

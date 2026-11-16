@@ -1,0 +1,177 @@
+{
+  "run_name": "E6_dlq_r1",
+  "group_id": "verify-20261116_085049",
+  "started_utc": "2026-11-16T08:50:49.402Z",
+  "ended_utc": "2026-11-16T08:51:13.709Z",
+  "stop_reason": "idle_timeout",
+  "wall_duration_s": 24.302,
+  "active_duration_s": 11.478,
+  "throughput_eps": 2090.9,
+  "max_receive_gap_s": 0.31,
+  "kafka_errors": {},
+  "dlq": {
+    "sent": 1212,
+    "delivered": 1212,
+    "failed": 0
+  },
+  "counts": {
+    "received": 24000,
+    "valid": 22788,
+    "invalid": 1212,
+    "untracked_seq": 275,
+    "key_mismatch": 0
+  },
+  "by_topic": {
+    "web.clickstream": {
+      "received": 21662,
+      "valid": 20573,
+      "invalid": 1089
+    },
+    "web.transactions": {
+      "received": 2338,
+      "valid": 2215,
+      "invalid": 123
+    }
+  },
+  "invalid_by_reason": {
+    "ts_event_invalid_iso8601": 307,
+    "invalid_event_type": 285,
+    "wrong_type:seq": 275,
+    "missing_field:user_id": 105,
+    "missing_field:event_type": 104,
+    "missing_field:ts_event": 94,
+    "non_positive:total_amount": 23,
+    "empty_items": 19
+  },
+  "seq": {
+    "per_producer": {
+      "P01": {
+        "unique": 23725,
+        "min_seq": 1,
+        "max_seq": 24000,
+        "missing": 275,
+        "duplicates": 0,
+        "missing_ranges": [
+          [
+            101,
+            101
+          ],
+          [
+            320,
+            320
+          ],
+          [
+            323,
+            323
+          ],
+          [
+            334,
+            334
+          ],
+          [
+            481,
+            481
+          ],
+          [
+            532,
+            532
+          ],
+          [
+            618,
+            618
+          ],
+          [
+            791,
+            791
+          ],
+          [
+            824,
+            824
+          ],
+          [
+            840,
+            840
+          ],
+          [
+            963,
+            963
+          ],
+          [
+            1004,
+            1004
+          ],
+          [
+            1045,
+            1045
+          ],
+          [
+            1118,
+            1118
+          ],
+          [
+            1224,
+            1224
+          ],
+          [
+            1347,
+            1347
+          ],
+          [
+            1416,
+            1416
+          ],
+          [
+            1455,
+            1455
+          ],
+          [
+            1683,
+            1683
+          ],
+          [
+            1718,
+            1718
+          ]
+        ]
+      }
+    },
+    "total_missing": 275,
+    "total_duplicates": 0
+  },
+  "latency_ms": {
+    "count": 22788,
+    "mean": 193.28566390170283,
+    "min": 14.681816101074219,
+    "p50": 190.04178047180176,
+    "p95": 318.3160185813905,
+    "p99": 470.63640356063945,
+    "max": 796.5502738952637
+  },
+  "checks": {
+    "valid_plus_invalid_equals_received": true,
+    "dlq_sent_equals_invalid": true,
+    "dlq_all_delivered": true
+  },
+  "args": {
+    "bootstrap_servers": "localhost:29092",
+    "topics": [
+      "web.clickstream",
+      "web.transactions"
+    ],
+    "group_id": null,
+    "offset_reset": "latest",
+    "idle_timeout": 8.0,
+    "start_timeout": 30.0,
+    "max_messages": 0,
+    "batch_size": 500,
+    "commit_every": 5000,
+    "commit_interval": 5.0,
+    "log_interval": 5.0,
+    "out_dir": "D:\\Download\\monthaysang\\results\\runs_tv3",
+    "run_name": "E6_dlq_r1",
+    "strict_uuid": false,
+    "no_total_check": false,
+    "max_seq": 50000000,
+    "verbose": false
+  }
+}

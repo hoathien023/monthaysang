@@ -1,0 +1,65 @@
+{
+  "run_id": "gop_kiemtra",
+  "params": {
+    "bootstrap": "localhost:29092",
+    "producers": 1,
+    "rate": 0,
+    "burst_rate": 0,
+    "burst_every": 10,
+    "burst_seconds": 2,
+    "n": 10000,
+    "duration": 0,
+    "topic": "",
+    "txn_ratio": 0.1,
+    "bad_ratio": 0.0,
+    "seed": 42,
+    "acks": "all",
+    "linger_ms": 5,
+    "batch_size": 65536,
+    "compression": "none",
+    "run_id": "gop_kiemtra"
+  },
+  "wall_seconds": 0.995,
+  "sent": 10000,
+  "delivered": 10000,
+  "failed": 0,
+  "throughput_delivered_eps": 10111.2,
+  "ack_latency_ms": {
+    "p50": 545.85,
+    "p95": 677.98,
+    "p99": 725.87
+  },
+  "injected_total": 0,
+  "injected_by_kind": {},
+  "timeline_sent_per_s": [
+    10000
+  ],
+  "rate_per_s": {
+    "min": 10000,
+    "avg": 10000.0,
+    "max": 10000,
+    "seconds_with_zero": 0
+  },
+  "producers": [
+    {
+      "producer_id": "P01",
+      "sent": 10000,
+      "delivered": 10000,
+      "failed": 0,
+      "undelivered_after_flush": 0,
+      "seq_first": 1,
+      "seq_last": 10000,
+      "seconds_produce": 0.233,
+      "seconds_total": 0.989,
+      "per_topic": {
+        "web.clickstream": 8964,
+        "web.transactions": 1036
+      },
+      "injected_errors": {},
+      "delivery_errors": [],
+      "timeline_sent_per_s": [
+        10000
+      ]
+    }
+  ]
+}

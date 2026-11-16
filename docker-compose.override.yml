@@ -1,0 +1,7 @@
+# TV3 override (khong sua docker-compose.yml cua TV2):
+# Tren mot so phien ban Docker Desktop Windows, named volume mount vao /var/kafka/logs
+# duoc tao voi quyen root trong khi image apache/kafka:3.8.0 mac dinh chay bang uid 1000 (appuser).
+# File override nay giup `docker compose up -d` (ke ca sau `down -v`) luon khoi dong thanh cong.
+services:
+  kafka:
+    user: "0:0"

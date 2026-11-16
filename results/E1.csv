@@ -1,0 +1,10 @@
+﻿experiment,run,params,events,duration_s,throughput_eps,p50_ms,p95_ms,p99_ms,missing,duplicates
+E1,1,"{""topic"":""bench.p1"",""partitions"":1,""producers"":1,""target_events"":200000}",200000,39.541,5058.7,17318.86,32498.77,33796.92,0,0
+E1,2,"{""topic"":""bench.p1"",""partitions"":1,""producers"":1,""target_events"":200000}",200000,39.646,5045.4,15971.78,29352.43,30624.61,0,0
+E1,3,"{""topic"":""bench.p1"",""partitions"":1,""producers"":1,""target_events"":200000}",200000,39.523,5060.9,17556.17,32002.93,33293.22,0,0
+E1,1,"{""topic"":""bench.p3"",""partitions"":3,""producers"":1,""target_events"":200000}",200000,9.71,20610.1,66.86,644.39,788.18,0,0
+E1,2,"{""topic"":""bench.p3"",""partitions"":3,""producers"":1,""target_events"":200000}",200000,7.025,28494.1,61.3,594.2,705.55,0,0
+E1,3,"{""topic"":""bench.p3"",""partitions"":3,""producers"":1,""target_events"":200000}",200000,9.479,21112.6,63.27,859.73,1074.49,0,0
+E1,1,"{""topic"":""bench.p6"",""partitions"":6,""producers"":1,""target_events"":200000}",200000,8.429,23741.7,77.55,1124.87,1214.74,0,0
+E1,2,"{""topic"":""bench.p6"",""partitions"":6,""producers"":1,""target_events"":200000}",200000,7.983,25072.1,65.75,796.29,970.87,0,0
+E1,3,"{""topic"":""bench.p6"",""partitions"":6,""producers"":1,""target_events"":200000}",200000,8.667,23089.4,344.81,1727.09,1781.47,0,0
